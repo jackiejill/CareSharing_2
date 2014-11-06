@@ -1,0 +1,158 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          Resource.txt
+
+*** Test Cases ***
+Login
+    Set selenium speed    1
+    Login
+
+Check Input Fields
+    Check Required Fields
+    Check Optional Fields
+    click element    xpath=//div[7]/div/div[1]/div/div[1]/a
+
+Check Values
+    Check Age Validity
+    Check Dia Reu Validity
+    Check BP Validity
+    Check Chol HDL Validity
+    Check CVD Msg
+
+Logout
+    Logout
+
+*** Keywords ***
+Login
+    open browser    ${url}    ${browser}
+    maximize browser window
+    click element    xpath=//div[4]/div[1]/div/a[3]
+    input text    id=user_login    ${txt_login_name}
+    input text    id=user_password    ${txt_login_pw}
+    click button    xpath=//div/div[3]/div[1]/form/div[4]/button
+
+Check Required Fields
+    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+    element text should be    xpath=//div[7]/div/div[1]/div/div[2]/div    ${msg_required_field}
+    input text    id=risk_data_age    50
+    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+    element text should be    xpath=//div[7]/div/div[1]/div/div[2]/div    ${msg_required_field}
+    input text    id=risk_data_systolisch    140
+    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+    element text should be    xpath=//div[7]/div/div[1]/div/div[2]/div    ${msg_required_field}
+    input text    id=risk_data_cholesterol    5.3
+    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+    element text should be    xpath=//div[7]/div/div[1]/div/div[2]/div    ${msg_required_field}
+    input text    id=risk_data_hdl    0.9
+    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+    current frame should not contain    xpath=//div[7]/div/div[1]/div/div[2]/div    ${msg_required_field}
+
+Check Optional Fields
+    input text    id=risk_data_patient_name    temp01
+    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+    current frame should not contain    xpath=//div[7]/div/div[1]/div/div[2]/div    ${msg_required_field}
+    click element    id=search_name
+    table should contain    xpath=//div[6]/div[2]/div/ul    temp01
+    input text    id=risk_data_patient_dob    01.01.1980
+    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+    current frame should not contain    xpath=//div[7]/div/div[1]/div/div[2]/div    ${msg_required_field}
+    click element    id=search_name
+    table should contain    xpath=//div[6]/div[2]/div/ul    temp01
+    input text    id=risk_data_score_comment    comment111
+    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+    current frame should not contain    xpath=//div[7]/div/div[1]/div/div[2]/div    ${msg_required_field}
+    click element    id=search_name
+    table should contain    xpath=//div[6]/div[2]/div/ul    temp01
+    input text    id=search_name    temp01
+    click element    xpath=//div[6]/div[2]/div
+    textfield should contain    id=risk_data_patient_name    temp01
+    textfield should contain    id=risk_data_patient_dob    01.01.1980
+    textfield should contain    id=risk_data_score_comment    comment111
+
+Check Age Validity
+    Age Min For DiaReu
+    Age Min For RiskAssmnt
+    Age Max For DiaReu
+    Age Max For RiskAssmnt
+
+Check BP Validity
+    BP Min
+    BP Max
+
+Check Chol HDL Validity
+    CholHDL Min
+    CholHDL Max
+
+Check Dia Reu Validity
+    Diabetic Reumatism
+
+Check CVD Msg
+    click button    id=risk_data_heart_disease_yes
+    element text should be    xpath=//div[7]/div/div[1]/div/div[2]/div    ${msg_cvd}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[3]/span[2]/p[1]    ${msg_cvd_advice_1}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[3]/span[2]/p[2]    ${msg_cvd_advice_2}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[3]/span[2]/p[3]    ${msg_cvd_advice_3}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[3]/span[2]/p[4]    ${msg_cvd_advice_4}
+
+Age Min For DiaReu
+    input text    id=risk_data_age    24
+    input text    id=risk_data_systolisch    130
+    input text    id=risk_data_cholesterol    5.3
+    input text    id=risk_data_hdl    0.9
+    click button    id=risk_data_diabetic_1
+    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+    element text should be    xpath=//div[7]/div/div[1]/div/div[2]/div    ${err_min_dia_reu}
+
+Age Min For RiskAssmnt
+    input text    id=risk_data_age    39
+    click button    id=risk_data_diabetic_0
+    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+    element text should be    xpath=//div[7]/div/div[1]/div/div[2]/div    ${err_min_age}
+
+Age Max For DiaReu
+    input text    id=risk_data_age    56
+    click button    id=risk_data_diabetic_1
+    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+    element text should be    xpath=//div[7]/div/div[1]/div/div[2]/div    ${err_max_dia_reu}
+
+Age Max For RiskAssmnt
+    input text    id=risk_data_age    71
+    click button    id=risk_data_diabetic_0
+    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+    element text should be    xpath=//div[7]/div/div[1]/div/div[2]/div    ${err_max_age}
+
+Diabetic Reumatism
+    input text    id=risk_data_age    30
+    click button    id=risk_data_diabetic_1
+    click button    id=risk_data_rheumatic_1
+    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+    element text should be    xpath=//div[7]/div/div[1]/div/div[2]/div    ${err_dia_reu}
+
+BP Min
+    input text    id=risk_data_age    45
+    click button    id=risk_data_diabetic_0
+    click button    id=risk_data_rheumatic_0
+    input text    id=risk_data_systolisch    119
+    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+    element text should be    xpath=//div[7]/div/div[1]/div/div[2]/div    ${err_min_bp}
+
+BP Max
+    input text    id=risk_data_systolisch    181
+    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+    element text should be    xpath=//div[7]/div/div[1]/div/div[2]/div    ${err_max_bp}
+
+CholHDL Min
+    input text    id=risk_data_systolisch    170
+    input text    id=risk_data_cholesterol    3.2
+    input text    id=risk_data_hdl    0.9
+    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+    element text should be    xpath=//div[7]/div/div[1]/div/div[2]/div    ${err_min_chol_hdl}
+
+CholHDL Max
+    input text    id=risk_data_cholesterol    8.5
+    input text    id=risk_data_hdl    0.9
+    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+    element text should be    xpath=//div[7]/div/div[1]/div/div[2]/div    ${err_max_chol_hdl}
+
+Logout
+    click element    xpath=//div[4]/div[1]/div[6]/ul/li[1]/a/img
