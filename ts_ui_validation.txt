@@ -1,0 +1,70 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          Resource.txt
+
+*** Test Cases ***
+Login
+    set selenium speed    1
+    Login
+
+Validate UI
+    Validate Labels
+    Validate Controls
+
+Logout
+    Logout
+
+*** Keywords ***
+Login
+    open browser    ${url}    ${browser}
+    maximize browser window
+    click element    xpath=//div[4]/div[1]/div/a[3]
+    input text    id=user_login    ${txt_login_name}
+    input text    id=user_password    ${txt_login_pw}
+    click button    xpath=//div/div[3]/div[1]/form/div[4]/button
+
+Validate Labels
+    element text should be    xpath=//div[7]/div/div[1]/div/div[1]/a    ${txt_new_score}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/fieldset/table/tbody/tr[1]/td[1]/label    ${txt_cardio_disease}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/fieldset/table/tbody/tr[1]/td[2]    ${txt_yes}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/fieldset/table/tbody/tr[1]/td[3]    ${txt_no}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/fieldset/table/tbody/tr[2]/td[1]/label    ${txt_age}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/fieldset/table/tbody/tr[3]/td[1]/label    ${txt_gender}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/fieldset/table/tbody/tr[3]/td[2]/table/tbody/tr[1]/td[1]    ${txt_male}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/fieldset/table/tbody/tr[3]/td[2]/table/tbody/tr[2]/td[1]    ${txt_female}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/fieldset/table/tbody/tr[4]/td[1]/label    ${txt_blood_pressure}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/fieldset/table/tbody/tr[5]/td[1]/label    ${txt_cholesterol}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/fieldset/table/tbody/tr[5]/td[3]/span    ${txt_chol_val}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/fieldset/table/tbody/tr[6]/td[1]/label    ${txt_hdl_chol}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/fieldset/table/tbody/tr[6]/td[3]/span    ${txt_hdl_chol_val}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/fieldset/table/tbody/tr[8]/td[1]/label    ${txt_smoking}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/fieldset/table/tbody/tr[9]/td[1]/label    ${txt_diabetes}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/fieldset/table/tbody/tr[10]/td[1]/label    ${txt_reumatism}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]    ${txt_calculate}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[3]/form/div[3]/span[1]/div[1]    ${txt_info}
+    element text should be    xpath=//div[7]/div/div[1]/div/div[6]/p    ${txt_info_1}
+    element text should be    xpath=//div[4]/div[1]/div[6]/ul/li[4]    ${txt_scoremeter_test}
+    element text should be    xpath=//div[4]/div[1]/div[2]/span[1]    ${txt_applications}
+
+Validate Controls
+    page should contain radio button    id=risk_data_heart_disease_yes
+    page should contain radio button    id=risk_data_heart_disease_no
+    page should contain radio button    id=risk_data_gender_m
+    page should contain radio button    id=risk_data_gender_f
+    page should contain radio button    id=risk_data_roken_1
+    page should contain radio button    id=risk_data_roken_0
+    page should contain radio button    id=risk_data_diabetic_1
+    page should contain radio button    id=risk_data_diabetic_0
+    page should contain radio button    id=risk_data_rheumatic_1
+    page should contain radio button    id=risk_data_rheumatic_0
+    page should contain textfield    id=risk_data_patient_name
+    page should contain textfield    id=risk_data_patient_dob
+    page should contain textfield    id=risk_data_score_comment
+    page should contain textfield    id=risk_data_age
+    page should contain textfield    id=risk_data_systolisch
+    page should contain textfield    id=risk_data_cholesterol
+    page should contain textfield    id=risk_data_hdl
+    page should contain textfield    id=search_name
+
+Logout
+    click element    xpath=//div[4]/div[1]/div[6]/ul/li[1]/a/img
