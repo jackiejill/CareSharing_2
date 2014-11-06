@@ -1,0 +1,41 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          Resource.txt
+
+*** Test Cases ***
+Login
+    set selenium speed    1
+    Login
+
+Create 10 Patients
+    Create Patients
+
+Logout
+    Logout
+
+*** Keywords ***
+Login
+    open browser    ${url}    ${browser}
+    maximize browser window
+    click element    xpath=//div[4]/div[1]/div/a[3]
+    input text    id=user_login    ${txt_login_name}
+    input text    id=user_password    ${txt_login_pw}
+    click button    xpath=//div/div[3]/div[1]/form/div[4]/button
+
+Create Patients
+    : FOR    ${index}    IN RANGE    10
+    \    input text    id=risk_data_patient_name    @{list_patients}[${index}]
+    \    input text    id=risk_data_patient_dob    @{list_bday}[${index}]
+    \    input text    id=risk_data_age    @{list_age}[${index}]
+    \    click button    @{list_gender}[${index}]
+    \    input text    id=risk_data_systolisch    @{list_blood_pressure}[${index}]
+    \    input text    id=risk_data_cholesterol    @{list_cholesterol}[${index}]
+    \    input text    id=risk_data_hdl    @{list_hdl}[${index}]
+    \    click button    @{list_smoking}[${index}]
+    \    click button    @{list_diabetes}[${index}]
+    \    click button    @{list_reumatism}[${index}]
+    \    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+    \    click element    xpath=//div[7]/div/div[1]/div/div[1]/a
+
+Logout
+    click element    xpath=//div[4]/div[1]/div[6]/ul/li[1]/a/img
