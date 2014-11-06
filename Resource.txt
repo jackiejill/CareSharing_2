@@ -1,0 +1,77 @@
+*** Settings ***
+Documentation     This ressource file contain common and globals variables
+Library           Selenium2Library
+Library           String
+
+*** Variables ***
+${browser}        chrome
+${url}            http://scoremeter.nl/
+${txt_login_name}    score.tester
+${txt_login_pw}    Adm1n *PW 1001
+${txt_new_score}    Nieuwe score
+${txt_cardio_disease}    Hart-vaatziekten:
+${txt_yes}        Ja
+${txt_no}         Nee
+${txt_age}        Leeftijd:
+${txt_gender}     Geslacht:
+${txt_male}       M
+${txt_female}     V
+${txt_blood_pressure}    Bloeddruk systol.:
+${txt_cholesterol}    Cholesterol(mmol/l):
+${txt_chol_val}    b.v. 5.3
+${txt_hdl_chol}    Hdl-cholesterol:
+${txt_hdl_chol_val}    b.v. 0.9
+${txt_smoking}    Roken:
+${txt_diabetes}    Diabetes:
+${txt_reumatism}    Reuma:
+${txt_calculate}    ${EMPTY}
+${txt_info}       Risicoschatting is van toepassing voor de leeftijd 40-70 jaar en voor diabetes- en reumapatienten de leeftijd 25-55 jaar
+${txt_info_1}     Bij de berekening van de grafieken maken wij gebruik van de SCORE-risicofunctie zoals vermeld in de NHG-standaard 'Cardiovasculair risicomanagement jan. 2012'. De score risicofunctie geldt voor de leeftijd van 40-70 jaar. Bij een jongere leeftijd dan 40 wordt het percentage getoond vanaf 40 jaar. Bij een leeftijd boven de 70 jaar wordt automatisch het risico van een 70 jarige weergegeven. Met de muis over de knopen van de curve gaan geeft het risico weer dat bij die leeftijd past. De groene lijn geeft het risico weer van een laag risico patient met een bloeddruk van 120 en een chol/HDL ratio van 4.0. Er wordt gebruik gemaakt van 2 algoritmes; een algoritme tot 65 jaar en een ander algoritme voor de leeftijd 65-70 jaar, dit verklaart de knik in de curve bij 65 jaar.
+${txt_scoremeter_test}    Scoremeter Test
+${txt_applications}    Applicaties
+@{list_patients}    patient01    patient02    patient03    patient04    patient05    patient06    patient07
+...               patient08    patient09    patient10
+@{list_bday}      01.01.1980    01.01.1980    01.01.1980    01.01.1980    01.01.1980    01.01.1980    01.01.1980
+...               01.01.1980    01.01.1980    01.01.1980
+@{list_age}       40    45    50    55    60    26    28
+...               33    38    43
+@{list_gender}    risk_data_gender_m    risk_data_gender_f    risk_data_gender_m    risk_data_gender_m    risk_data_gender_f    risk_data_gender_f    risk_data_gender_f
+...               risk_data_gender_m    risk_data_gender_m    risk_data_gender_f
+@{list_blood_pressure}    120    140    130    180    150    170    160
+...               145    165    175
+@{list_cholesterol}    5.3    4.8    6.4    5.5    5.6    7.0    6.7
+...               4.9    7.5    6.6
+@{list_hdl}       0.9    0.7    0.9    0.78    0.8    0.9    0.88
+...               0.78    0.99    0.88
+@{list_smoking}    risk_data_roken_1    risk_data_roken_0    risk_data_roken_0    risk_data_roken_0    risk_data_roken_0    risk_data_roken_1    risk_data_roken_0
+...               risk_data_roken_1    risk_data_roken_0    risk_data_roken_1
+@{list_diabetes}    risk_data_diabetic_0    risk_data_diabetic_0    risk_data_diabetic_0    risk_data_diabetic_0    risk_data_diabetic_0    risk_data_diabetic_1    risk_data_diabetic_0
+...               risk_data_diabetic_1    risk_data_diabetic_1    risk_data_diabetic_0
+@{list_reumatism}    risk_data_rheumatic_0    risk_data_rheumatic_0    risk_data_rheumatic_0    risk_data_rheumatic_0    risk_data_rheumatic_0    risk_data_rheumatic_0    risk_data_rheumatic_1
+...               risk_data_rheumatic_0    risk_data_rheumatic_0    risk_data_rheumatic_1
+@{list_edit_age}    41    46    51    56    61    27    29
+...               34    39    44
+@{list_edit_blood_pressure}    125    135    130    180    160    155    160
+...               145    170    160
+@{list_edit_cholesterol}    5.3    4.9    6.4    5.5    5.2    7.3    6.7
+...               4.7    7.5    6.2
+@{list_edit_hdl}    0.9    0.8    0.9    0.78    0.7    0.94    0.88
+...               0.6    0.99    0.9
+@{list_edit_smoking}    risk_data_roken_1    risk_data_roken_1    risk_data_roken_0    risk_data_roken_0    risk_data_roken_1    risk_data_roken_1    risk_data_roken_0
+...               risk_data_roken_0    risk_data_roken_0    risk_data_roken_0
+${txt_show_all}    Bekijk volledige lijst met voorgaande scores
+${msg_required_field}    Vul a.u.b. eerst alle gegevens in het formulier in.
+${msg_cvd_advice_1}    Algemeen advies bij HVZ:
+${msg_cvd_advice_2}    Bloeddruk > 140 behandelen;
+${msg_cvd_advice_3}    Overweeg eveneens bloeddrukverlagende medicatie indien de patiënt een herseninfarct of TIA heeft doorgemaakt en de RR < 140 mmHg is.
+${msg_cvd_advice_4}    Start behandeling met statines bij symptomatisch coronairlijden of een doorgemaakt hartinfarct. Overweeg ook behandeling met statines bij een sterk verhoogd risico op een hart- en vaatziekten, bijvoorbeeld: bij een recidief hart-/vaatziekte ondanks adequate behandeling of zeer premature hart- en vaatziekten in de familie. Dan kan een LDL-streefwaarde onder de 2,5 mmol/l worden gehanteerd.
+${msg_cvd}        Risicoschatting niet van toepassing bij hart-vaatziekten.
+${err_min_age}    Risicoschatting niet mogelijk vanwege leeftijd < 40; uitgaande van 40 jaar is het risico:
+${err_max_age}    Risicoschatting niet mogelijk vanwege leeftijd > 70; uitgaande van 70 jaar is het risico:
+${err_min_dia_reu}    Risicoschatting niet mogelijk vanwege leeftijd < 25; uitgaande van 25 jaar is het risico:
+${err_max_dia_reu}    Risicoschatting niet mogelijk vanwege leeftijd > 55; uitgaande van 55 jaar is het risico:
+${err_dia_reu}    De score kan niet berekend worden omdat zowel diabetes als reuma aanwezig is
+${err_min_bp}     Risicoschatting niet mogelijk vanwege RR < 120; Uitgaande van een RR van 120 is de risicoschatting
+${err_max_bp}     Risicoschatting niet mogelijk vanwege RR > 180; Uitgaande van een RR van 180 is de risicoschatting
+${err_min_chol_hdl}    Risicoschatting niet mogelijk vanwege Chol/Hdl ratio < 4; Uitgaande van een Chol/Hdl ratio van 4 is de risicoschatting
+${err_max_chol_hdl}    Risicoschatting niet mogelijk vanwege Chol/Hdl ratio > 8; Uitgaande van een Chol/Hdl ratio van 8 is de risicoschatting
