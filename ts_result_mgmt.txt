@@ -1,0 +1,53 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          Resource.txt
+Library           Dialogs
+
+*** Test Cases ***
+Login
+    set selenium speed    1
+    Login
+
+Edit Results
+    Edit Results
+
+Delete Results
+    Delete Results
+
+Logout
+    Logout
+
+*** Keywords ***
+Login
+    open browser    ${url}    ${browser}
+    maximize browser window
+    click element    xpath=//div[4]/div[1]/div/a[3]
+    input text    id=user_login    ${txt_login_name}
+    input text    id=user_password    ${txt_login_pw}
+    click button    xpath=//div/div[3]/div[1]/form/div[4]/button
+
+Edit Results
+    : FOR    ${index}    IN RANGE    10
+    \    input text    id=search_name    @{list_patients}[${index}]
+    \    click element    xpath=//div[6]/div[2]/div
+    \    click button    id=edit_score_link
+    \    Change Inputs    ${index}
+    \    click element    xpath=//div[7]/div/div[1]/div/div[3]/form/div[2]/div/span/span/input[1]
+
+Change Inputs
+    [Arguments]    ${index}
+    input text    id=risk_data_age    @{list_edit_age}[${index}]
+    input text    id=risk_data_systolisch    @{list_edit_blood_pressure}[${index}]
+    input text    id=risk_data_cholesterol    @{list_edit_cholesterol}[${index}]
+    input text    id=risk_data_hdl    @{list_edit_hdl}[${index}]
+    click button    @{list_edit_smoking}[${index}]
+
+Delete Results
+    input text    id=search_name    ${txt_show_all}
+    click element    xpath=//div[6]/div[2]/div
+    : FOR    ${index}    IN RANGE    10
+    \    click element    //div[7]/div/div[1]/div/div[3]/form/div[3]/div/div/ul[${index+2}]/li/span[2]/img
+    \    select Window    SCORE risicometer
+
+Logout
+    click element    xpath=//div[4]/div[1]/div[6]/ul/li[1]/a/img
